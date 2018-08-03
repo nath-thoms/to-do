@@ -4,6 +4,7 @@ import com.nathan.todolist.datamodel.ToDoItem;
 import com.nathan.todolist.datamodel.TodoData;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +88,17 @@ public class Controller {
             }
         });
 
-        todoListView.setItems(TodoData.getInstance().getTodoItems());
+        SortedList<ToDoItem> sortedList = new SortedList<ToDoItem>(TodoData.getInstance().getTodoItems(),
+                new Comparator<ToDoItem>() {
+            @Override
+            public int compare(ToDoItem o1, ToDoItem o2) {
+                return o1.getDeadline().compareTo(o2.getDeadline());
+            }
+        });
+
+        // setting list originally swapped for compared sorted method.
+        //todoListView.setItems(TodoData.getInstance().getTodoItems());
+        todoListView.setItems(sortedList);
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         todoListView.getSelectionModel().selectFirst();
 

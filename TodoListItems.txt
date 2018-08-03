@@ -5,7 +5,6 @@ My new task	This is a new task.	22-07-2018
 Second test item	New test item	25-07-2018
 Test	New test item	31-07-2018
 third item	this is a third test iteam	07-08-2018
-Fourth test item	This is the fourth test item added to the todo list.	23-07-2019
 my fifth test	fifth test item added automatically	20-07-2019
 test	test	09-08-2018
 rweq b3rey	yer be qybeqvqre bvre	01-08-2018
