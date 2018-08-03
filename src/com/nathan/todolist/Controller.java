@@ -4,6 +4,8 @@ import com.nathan.todolist.datamodel.ToDoItem;
 import com.nathan.todolist.datamodel.TodoData;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +38,9 @@ public class Controller {
     @FXML
     private BorderPane mainBorderPane;
 
+    @FXML
+    private ContextMenu listContextMenu;
+
     public void initialize() {
 //        ToDoItem item1 = new ToDoItem("Mail birthday card", "Buy a 30th birthday card for John",
 //                 LocalDate.of(2018, Month.NOVEMBER, 11));
@@ -55,6 +60,17 @@ public class Controller {
 //        TodoData.getInstance().setTodoItems(todoItems);
 
 
+        listContextMenu = new ContextMenu();
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ToDoItem item = todoListView.getSelectionModel().getSelectedItem();
+                deleteItem(item);
+            }
+        });
+
+        listContextMenu.getItems().addAll(deleteMenuItem);
 
         todoListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -92,6 +108,14 @@ public class Controller {
                         }
                     }
                 };
+                    cell.emptyProperty().addListener(
+                            (obs, wasEmpty, isNowEmpty) -> {
+                                    if(isNowEmpty) {
+                                        cell.setContextMenu(null);
+                                    } else {
+                                        cell.setContextMenu(listContextMenu);
+                                    }
+                            });
 
                     return cell;
             }
@@ -145,6 +169,18 @@ public class Controller {
 //        sb.append("Due: ");
 //        sb.append(item.getDeadline().toString());
 //        itemDetailsTextArea.setText(sb.toString());
+    }
+
+    public void deleteItem(ToDoItem item) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Todo Item");
+        alert.setHeaderText("Delete item: " + item.getShortDescription() + "?");
+        alert.setContentText("Are you sure? Press OK to confirm or Cancel to go back.");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.isPresent() && (result.get() == ButtonType.OK)) {
+            TodoData.getInstance().deleteTodoItem(item);
+        }
     }
 
 }

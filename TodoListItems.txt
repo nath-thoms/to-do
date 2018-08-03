@@ -1,6 +1,5 @@
 Mail birthday card	Buy a 30th birthday card for John	11-11-2018
 Doctor's appointment	See Dr Smith at 123 Fake Street. Bring letter.	14-12-2018
-Finish design proposal	Ensure specs and mockups are finished on time.	18-08-2018
 Dog at vets	Take Betty to the vets. Oakmount Vets surgery	11-11-2020
 My new task	This is a new task.	22-07-2018
 Second test item	New test item	25-07-2018
